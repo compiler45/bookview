@@ -1,4 +1,5 @@
 import os
+import datetime
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 
@@ -10,7 +11,14 @@ class Config:
     MAIL_SUBJECT_PREFIX = '[Book View]'
     ADMIN_EMAIL = os.environ.get('BOOKVIEW_ADMIN_EMAIL')
     BOOKVIEW_MAIL_SENDER = 'Book View Admin <bvadmin@pageparadise.com>'
+
+    # login settings
+    REMEMBER_COOKIE_DURATION = datetime.timedelta(hours=2)
+
+    # database settings
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # generate a random key?
+    SECRET_KEY = os.environ.get('SECRET_KEY')
 
     @staticmethod
     def init_app(app):
@@ -25,6 +33,7 @@ class DevelopmentConfig(Config):
 
 class TestConfig(Config):
     TESTING = True
+    WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or \
             'sqlite:///{}'.format(os.path.join(basedir, 'data-test.sqlite'))
 

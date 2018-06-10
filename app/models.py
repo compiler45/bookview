@@ -1,8 +1,9 @@
 from datetime import datetime
 
 from flask import current_app
+from flask_login import UserMixin, AnonymousUserMixin
 
-from . import db, bcrypt
+from . import db, bcrypt, login_manager
 from .permissions import Permission
 
 
@@ -57,7 +58,7 @@ class Role(db.Model):
         return '<Role {}'.format(self.name)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(30), nullable=False, index=True)
     email = db.Column(db.String, nullable=False, index=True)
@@ -88,3 +89,9 @@ class User(db.Model):
 
     def __repr__(self):
         return 'User {}'.format(self.username)
+
+
+# TODO: use session token instead
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
