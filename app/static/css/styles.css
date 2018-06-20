@@ -1,0 +1,12 @@
+.form-group.has-error .help-block {
+    color: red;
+}
+
+nav a:hover {
+    color: #DDD;
+}
+
+.main.container {
+    padding-left: 10%;
+    padding-right: 10%;
+}

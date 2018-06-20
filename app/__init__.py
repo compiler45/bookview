@@ -10,6 +10,7 @@ from config import configs
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
+mail = Mail()
 
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
@@ -27,7 +28,7 @@ def create_app(config='development'):
 
     # attach flask extensions
     bootstrap = Bootstrap(app)
-    mail = Mail(app)
+    mail.init_app(app)
     db.init_app(app)
 
     bcrypt.init_app(app)

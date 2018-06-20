@@ -5,12 +5,14 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     # Mail information
+    MAIL_SERVER = 'smtp.googlemail.com'
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_PORT = 587
+    MAIL_USE_TLS = True
     MAIL_SUBJECT_PREFIX = '[Book View]'
     ADMIN_EMAIL = os.environ.get('BOOKVIEW_ADMIN_EMAIL')
-    BOOKVIEW_MAIL_SENDER = 'Book View Admin <bvadmin@pageparadise.com>'
+    MAIL_DEFAULT_SENDER = 'Book View Admin <bvadmin@pageparadise.com>'
 
     # login settings
     REMEMBER_COOKIE_DURATION = datetime.timedelta(hours=2)

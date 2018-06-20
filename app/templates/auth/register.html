@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %} 
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        <h2>Please register with the form below</h2>
+        {{ macros.render_messages() }}
+        {{ wtf.quick_form(form, button_map={'submit': 'info'}) }} 
+    </div>
+</div>
+{% endblock content %}

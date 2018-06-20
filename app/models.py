@@ -1,5 +1,7 @@
-from datetime import datetime
+import datetime
 
+import jwt
+from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError, DecodeError
 from flask import current_app
 from flask_login import UserMixin, AnonymousUserMixin
 
@@ -8,6 +10,8 @@ from .permissions import Permission
 
 
 class Role(db.Model):
+    __tablename__ = 'roles'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     permissions = db.Column(db.Integer, default=0)
@@ -55,16 +59,19 @@ class Role(db.Model):
         db.session.commit()
 
     def __repr__(self):
-        return '<Role {}'.format(self.name)
+        return '<Role {}>'.format(self.name)
 
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(30), nullable=False, index=True)
-    email = db.Column(db.String, nullable=False, index=True)
+    username = db.Column(db.String(30), nullable=False, unique=True, index=True)
+    email = db.Column(db.String, nullable=False, unique=True, index=True)
     password_hash = db.Column(db.String, nullable=False)
-    time_created = db.Column(db.DateTime, default=datetime.utcnow)
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    time_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    confirmed = db.Column(db.Boolean, nullable=False, default=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     def __init__(self, username, email, **kwargs):
         super().__init__(**kwargs)
@@ -86,6 +93,26 @@ class User(db.Model, UserMixin):
 
     def check_password(self, given_password):
         return bcrypt.check_password_hash(self.password_hash, given_password)
+
+    def generate_confirmation_token(self, seconds=60 * 60 * 24):
+        # generate token with a validity time of 1 day by default
+        payload = {'user_id': self.id,
+                   'exp': datetime.datetime.utcnow() + datetime.timedelta(seconds=seconds)
+                  }
+
+        return jwt.encode(payload, current_app.config['SECRET_KEY'],
+                          algorithm='HS256').decode('utf-8')
+
+    def verify_confirmation_token(self, token):
+        try:
+            payload = jwt.decode(token, current_app.config['SECRET_KEY'],
+                                 algorithm='HS256')
+            if payload.get('user_id') != self.id:
+                return False
+        except Exception:
+            return False
+
+        return True
 
     def __repr__(self):
         return 'User {}'.format(self.username)

@@ -1,0 +1,20 @@
+<html>
+    <head>
+        Hello, {{ user.username }}!
+    </head>
+    <body>
+        <p>
+            Thank you for registering an account. To confirm it, just click the
+            link below, login, and you're good to go. The link will expire in 24 hours.
+        </p>
+
+        <p>
+            <a href="{{ url_for('auth.confirm',  _external=True) }}?t={{ token }}">
+               {{ url_for('auth.confirm',  _external=True) }}?t={{ token }}</a>
+        </p>
+
+        <p>
+            Happy book viewing!
+        </p>
+    </body>
+</html>

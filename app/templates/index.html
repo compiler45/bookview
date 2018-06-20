@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>
+                <strong>
+                    Welcome, {{ current_user.username }}!
+                </strong>
+            </h1>
+            <p>
+               Enjoy your stay.
+            </p>
+            <hr>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %} 
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-7">
+        <h1>
+            <strong>
+                Welcome to Bookview
+            </strong>
+        </h1>
+        <p class="mb-4">
+        A place to find and pore over the best of literature. Please log in with your details below.
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        {{ macros.render_messages() }}
+        {{ wtf.quick_form(form, button_map={'submit': 'info'}) }}
+        <p>
+        Don't have an account? Then <a href="{{ url_for('auth.register') }}">register here</a>
+        </p>
+    </div>
+</div>
+
+{% endblock content %}

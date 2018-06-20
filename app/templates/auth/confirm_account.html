@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        {{ macros.render_messages() }}
+        <p>You have not yet confirmed your account. Please click <a href="{{ url_for('auth.resend_confirmation_email') }}">here</a> to resend the confirmation email.
+        </p>
+    </div>
+</div>
+{% endblock content %}
