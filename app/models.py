@@ -1,8 +1,10 @@
+from cached_property import cached_property
 import datetime
 
+import bleach
 import jwt
-from jwt.exceptions import ExpiredSignatureError, InvalidSignatureError, DecodeError
-from flask import current_app
+from markdown import markdown
+from flask import current_app, url_for
 from flask_login import UserMixin, AnonymousUserMixin
 
 from . import db, bcrypt, login_manager
@@ -17,7 +19,7 @@ class Role(db.Model):
     permissions = db.Column(db.Integer, default=0)
     is_default = db.Column(db.Boolean)
 
-    users = db.relationship('User', backref='role', lazy='dynamic')
+    users = db.relationship('User', backref='role')
 
     def __init__(self, name, **kwargs):
         super().__init__(**kwargs)
@@ -122,3 +124,121 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+
+articles_tags = db.Table('articles_tags',
+                         db.Column('tags_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True),
+                         db.Column('articles_id', db.Integer, db.ForeignKey('articles.id'),
+                                   primary_key=True))
+
+
+class Book(db.Model):
+    __tablename__ = 'books'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, unique=True, nullable=False)
+    author = db.Column(db.String, nullable=False)
+    year_published = db.Column(db.String, nullable=True)
+
+
+class UploadedImage(db.Model):
+    __tablename__ = 'uploaded_images'
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String, nullable=False, unique=True)
+    path = db.Column(db.String, nullable=False, unique=True)
+
+    @property
+    def static_path(self):
+        return url_for('static',
+                       filename='img/uploads/{}'.format(self.filename))
+
+
+class Article(db.Model):
+    __tablename__ = 'articles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False, unique=True)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'))
+    time_published = db.Column(db.DateTime, nullable=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    image_id = db.Column(db.Integer, db.ForeignKey('uploaded_images.id'),
+                         nullable=True)
+    body_text = db.Column(db.Text)
+    body_html = db.Column(db.Text)
+    is_published = db.Column(db.Boolean, default=False, nullable=False)
+
+    book = db.relationship('Book', backref=db.backref('article'),
+                           uselist=False)
+    image = db.relationship('UploadedImage', lazy='select')
+    author = db.relationship('User', backref=db.backref('articles',
+                                                        lazy='dynamic'))
+    tags = db.relationship('Tag', secondary=articles_tags,
+                           backref=db.backref('articles', lazy='dynamic'))
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    @cached_property
+    def hyphenated_title(self):
+        lowercase_title = self.title.lower()
+
+        punctuation = ['?', '!', ',', '"', '#', ')', '(', '$', '%', '^', '-',
+                       '+', '*', '.']
+        for symbol in punctuation:
+            lowercase_title = lowercase_title.replace(symbol, '')
+
+        return lowercase_title.replace(' ', '-')
+
+    @cached_property
+    def text_preview(self):
+        """ Return first 10 words of an article"""
+        num_spaces = 0
+        preview = ""
+        for char in self.body_text:
+            if char == " ":
+                num_spaces += 1
+
+            if num_spaces == 10:
+                break
+            else:
+                preview += char
+
+        return preview
+
+    @staticmethod
+    def on_changed_body(target, value, old_value, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
+                        'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul', 'h1',
+                        'h2', 'h3', 'p']
+        target.body_html = bleach.linkify(bleach.clean(
+            markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+
+
+class Tag(db.Model):
+    __tablename__ = 'tags'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, unique=True, nullable=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    @staticmethod
+    def insert_tags():
+        logger = current_app.logger
+        tag_names = ['Action', 'Graphic Novel', 'Philosophy', 'Classical '
+                     'Literature', 'Modern Literature', 'History', 'Political '
+                     'Philosophy', 'Science', 'Existentialism', 'Social '
+                     'Commentary', 'Travel', 'Science Fiction', 'Fantasy', 
+                     'Japanese Literature']
+        for name in tag_names:
+            tag = Tag.query.filter_by(name=name).one_or_none()
+            if not tag:
+                logger.info('Adding new book tag: {}'.format(name))
+                tag = Tag(name=name)
+                db.session.add(tag)
+
+        db.session.commit()
+
+
+# database events, such as updating an article's text
+db.event.listen(Article.body_text, 'set', Article.on_changed_body)

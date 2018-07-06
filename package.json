@@ -1,0 +1,27 @@
+{
+  "name": "bookview",
+  "version": "1.0.0",
+  "description": "Small Flask application for allowing logged-in users to view and 'favourite' articles about books.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/compiler45/mini-bookipedia.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/compiler45/mini-bookipedia/issues"
+  },
+  "homepage": "https://github.com/compiler45/mini-bookipedia#readme",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-less": "^2.0.0",
+    "grunt-contrib-watch": "^1.1.0"
+  }
+}

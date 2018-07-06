@@ -31,6 +31,7 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URI') or \
             'sqlite:///{}'.format(os.path.join(basedir, 'data-dev.sqlite'))
+    ADMIN_PASSWORD = os.environ.get('BOOKVIEW_TEST_ADMIN_PASSWORD')
 
 
 class TestConfig(Config):
@@ -38,6 +39,7 @@ class TestConfig(Config):
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or \
             'sqlite:///{}'.format(os.path.join(basedir, 'data-test.sqlite'))
+    ADMIN_PASSWORD = os.environ.get('BOOKVIEW_TEST_ADMIN_PASSWORD')
 
 
 class ProductionConfig(Config):

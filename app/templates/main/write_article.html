@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block scripts %}
+    {{ pagedown.include_pagedown() }}
+{% endblock %}
+<!-- TODO: link to Markdown website? --!>
+{% block content %}
+<div class="rows no-gutters">
+    <div class="col-12">
+        {{ macros.render_messages() }}
+        <strong class="heading">
+            Write a new article
+        </strong>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+            {{ macros.render_errors(form.errors) }}
+            {{ wtf.form_field(form.title) }}
+            {{ wtf.form_field(form.author) }}
+            {{ wtf.form_field(form.book_image) }}
+            {{ wtf.form_field(form.year_published) }}
+            
+            <!-- Tag names --!>
+            <div class="give-article-tags">
+                <header>
+                    {{ form.tags.label }}
+                </header>
+                {% for option in form.tags %}
+                    <div class="form-check form-check-inline">
+                        {{ option(**{'class': 'form-check-input'}) }}
+                        {{ option.label(**{'class': 'form-check-label'})}}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <!-- Field for entering and previewing markdown --!>
+            <div class="article-markdown">
+                <header>
+                    {{ form.markdown_field.label }}
+                </header>
+                {{ form.markdown_field(rows=10) }}
+            </div>
+
+            {{ wtf.form_field(form.save, button_map={'save': 'light'}) }}
+            {{ wtf.form_field(form.publish, button_map={'publish': 'info'}) }}
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+article {
+    .article-info {
+        border: 1px solid @light-grey;
+        float: left;
+        width: 40%;
+        height: 50%;
+        padding: 6px;
+        margin-left: 5px;
+        margin-right: 5px;
+
+        @media screen and (max-width: 639px) {
+            width: 60vw;
+            height: 60vw;
+            margin: 10px auto;
+            float: none;
+        }
+
+        .article-image {
+            width: 100%;
+            margin: 0 auto;
+
+            img {
+                width: inherit;
+            }
+        }
+
+        .book-info {
+            p {
+                text-align: center;
+            }
+        }
+
+    }
+
+    br.clear {
+        @media screen and (max-width: 639px) {
+            clear: left;
+        }
+    }
+}

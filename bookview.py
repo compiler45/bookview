@@ -1,11 +1,13 @@
 import os
+import click
 
 from flask import redirect, url_for, request
 from flask_migrate import Migrate
 from flask_login import current_user
 
 from app import create_app, db
-from app.models import Role, User
+from app.models import Role, User, Tag
+from app.permissions import Permission
 
 app_config = os.environ.get('BOOKVIEW_CONFIG', 'default')
 app = create_app(config=app_config)

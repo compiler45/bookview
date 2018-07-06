@@ -3,31 +3,60 @@
 <html>
     <head>
         <meta charset='UTF-8'>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ url_for('static', filename="css/styles.css") }}">
+ 
+        <script src="{{ url_for('static', filename='js/jquery-3.3.1.js')}}"></script>
+        <script src="{{ url_for('static', filename='css/bootstrap-4.1.1/dist/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='css/bootstrap-4.1.1/dist/js/bootstrap.js') }}"></script>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-4.1.1/dist/css/bootstrap.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+        {% block scripts %}
+        {% endblock %}
+        
         {% block title %}<title>Bookview - for book lovers</title>{% endblock %}
 
         <header>
             {% block navbar %}
-            <nav class="navbar navbar-expand navbar-light bg-info mb-4">
-                <a class="navbar-brand text-white ml-4" href="{{
+            <nav class="navbar navbar-expand-md navbar-light {% if
+                current_user.is_admin %}bg-secondary {% else %}bg-info {% endif %}">
+                <a class="navbar-brand text-white" href="{{
                     url_for('main.index')}}">
                     Bookview
                 </a>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <div class="navbar-nav">
                         {% if current_user.is_authenticated %}
-                        <a class="nav-item nav-link active text-white" href="{{
-                            url_for('main.index') }}">Home</a>
+                            <a class="nav-item nav-link active text-white" href="{{
+                                url_for('main.index') }}">Home</a>
+                            <a class="nav-item nav-link active text-white"
+                               href="{{ url_for('main.write_article') }}">
+                                Write Article
+                            </a>
+                            <a class="nav-item nav-link active text-white" href="#">
+                                View Authors
+                            </a>
                         {% endif %}
                     </div>
                 </div>
-                <div class="nav justify-content-end mr-4">
+                <div class="nav justify-content-end">
                     {% if current_user.is_authenticated %}
-                    <a class="nav-item nav-link active text-white" href="{{
-                        url_for('auth.logout') }}">
-                        Logout
-                    </a>
+                        <div class="dropdown mr-md-5">
+                            <button class="btn {% if current_user.is_admin %}
+                            btn-secondary {% else %}btn-info{% endif %} dropdown-toggle type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">My Account</button>
+                            
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">My Profile</a>
+                                <a class="dropdown-item" href="#">Favourite Articles</a>
+                                <a class="dropdown-item" href="#">Change Password</a>
+                                <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                                    Logout
+                                </a>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </nav>
@@ -36,9 +65,16 @@
     </head>
 
     <body>
-        <div class="main container">
-            {% block content %}
-            {% endblock %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col side-image"></div>
+                <div class="col-12 col-md-8 pt-3">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+                <div class="col side-image"></div>
+            </div>
         </div>
+        <script src="//localhost:1337/livereload.js"></script>
     </body>
 </html>

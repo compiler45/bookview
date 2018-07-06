@@ -1,12 +1,162 @@
-.form-group.has-error .help-block {
-    color: red;
+/* line 1, app/less/main/main.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/main\.less}line{font-family:\000031}}
+html {
+  font-size: 15px;
 }
-
+/* line 1, app/less/main/navbar.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/navbar\.less}line{font-family:\000031}}
+.navbar-brand {
+  font-weight: normal;
+}
+/* line 5, app/less/main/navbar.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/navbar\.less}line{font-family:\000035}}
 nav a:hover {
-    color: #DDD;
+  color: red;
 }
-
-.main.container {
-    padding-left: 10%;
-    padding-right: 10%;
+/* line 1, app/less/main/background.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/background\.less}line{font-family:\000031}}
+.side-image {
+  background-image: url("/static/img/stacked_books.jpg");
+  opacity: 0.4;
+  width: 10%;
+  background-repeat: repeat-y;
+  background-color: white;
+}
+@media screen and (max-width: 639px) {
+  /* line 8, app/less/main/background.less */
+  @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/background\.less}line{font-family:\000038}}
+  .side-image {
+    display: none;
+  }
+}
+/* line 1, app/less/main/write_article.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/write_article\.less}line{font-family:\000031}}
+.heading {
+  font-size: 2em;
+}
+@media screen and (max-width: 639px) {
+  /* line 4, app/less/main/write_article.less */
+  @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/write_article\.less}line{font-family:\000034}}
+  .heading {
+    font-size: 1.4em;
+  }
+}
+/* line 9, app/less/main/write_article.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/write_article\.less}line{font-family:\000039}}
+.give-article-tags {
+  margin: 10px 0;
+  border: 1px solid #CED4DA;
+  border-radius: 6px;
+  padding: 5px;
+}
+/* line 2, app/less/main/view_article.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/view_article\.less}line{font-family:\000032}}
+article .article-info {
+  border: 1px solid #CED4DA;
+  float: left;
+  width: 40%;
+  height: 50%;
+  padding: 6px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+@media screen and (max-width: 639px) {
+  /* line 11, app/less/main/view_article.less */
+  @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/view_article\.less}line{font-family:\0000311}}
+  article .article-info {
+    width: 60vw;
+    height: 60vw;
+    margin: 10px auto;
+    float: none;
+  }
+}
+/* line 18, app/less/main/view_article.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/view_article\.less}line{font-family:\0000318}}
+article .article-info .article-image {
+  width: 100%;
+  margin: 0 auto;
+}
+/* line 22, app/less/main/view_article.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/view_article\.less}line{font-family:\0000322}}
+article .article-info .article-image img {
+  width: inherit;
+}
+/* line 28, app/less/main/view_article.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/view_article\.less}line{font-family:\0000328}}
+article .article-info .book-info p {
+  text-align: center;
+}
+@media screen and (max-width: 639px) {
+  /* line 36, app/less/main/view_article.less */
+  @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/view_article\.less}line{font-family:\0000336}}
+  article br.clear {
+    clear: left;
+  }
+}
+/* line 1, app/less/main/pagedown.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/pagedown\.less}line{font-family:\000031}}
+#flask-pagedown-markdown_field {
+  border-radius: 0.25rem;
+  /* ? */
+  border: 1px solid #ced4da;
+  width: 100%;
+}
+/* line 7, app/less/main/pagedown.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/pagedown\.less}line{font-family:\000037}}
+#flask-pagedown-markdown_field-preview {
+  width: 100%;
+}
+/* line 1, app/less/main/spacing.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/spacing\.less}line{font-family:\000031}}
+hr.spacer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 1, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\000031}}
+section.article-view {
+  width: 95%;
+  margin: 0 auto;
+}
+/* line 5, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\000035}}
+section.article-view .article-preview {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border-radius: 15px;
+}
+/* line 11, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000311}}
+section.article-view .article-preview:hover {
+  background-color: #EEE;
+}
+/* line 16, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000316}}
+.article-preview {
+  height: 8%;
+}
+/* line 19, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000319}}
+.article-preview .card-title {
+  font-size: 1.5em;
+}
+/* line 22, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000322}}
+.favourite {
+  color: #ffff44;
+}
+/* line 1, app/less/admin/navbar.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/admin\/navbar\.less}line{font-family:\000031}}
+nav a:hover {
+  color: #DDD;
+}
+/* line 1, app/less/admin/dropdown.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/admin\/dropdown\.less}line{font-family:\000031}}
+.admin-dropdown {
+  background-color: white;
+}
+/* line 1, app/less/forms.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/forms\.less}line{font-family:\000031}}
+.form-group.has-error .help-block {
+  color: red;
 }

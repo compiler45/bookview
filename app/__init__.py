@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_mail import Mail
 from flask_login import LoginManager
+from flask_pagedown import PageDown
 
 from config import configs
 
@@ -28,6 +29,7 @@ def create_app(config='development'):
 
     # attach flask extensions
     bootstrap = Bootstrap(app)
+    pagedown = PageDown(app)
     mail.init_app(app)
     db.init_app(app)
 
