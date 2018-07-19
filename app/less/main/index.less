@@ -6,6 +6,11 @@ section.article-view {
         margin-top: 15px;
         margin-bottom: 15px;
         border-radius: 15px;
+        height: 130px;
+    }
+
+    .article-preview > .card-body {
+        height: 100%;
     }
 
     .article-preview:hover {
@@ -13,11 +18,27 @@ section.article-view {
     }
 }
 
-.article-preview {
-    height: 8%;
-}
 .article-preview .card-title {
-    font-size: 1.5em;
+    font-size: 1.3em;
+}
+
+.article-preview .card-text {
+    font-size: 0.9em;
+
+    .text-and-tags {
+        float: left;
+        width: 70%;
+    }
+
+    .bookmark-symbol {
+        float: right;
+        width: 30%;
+
+        > button {
+            float:right;
+            margin-top: 20px;
+        }
+    }
 }
 .favourite {
     color: #ffff44;

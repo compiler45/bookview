@@ -37,6 +37,9 @@
                             <a class="nav-item nav-link active text-white" href="#">
                                 View Authors
                             </a>
+                            <a class="nav-item nav-link active text-white" href="#">
+                                Tags
+                            </a>
                         {% endif %}
                     </div>
                 </div>
@@ -65,12 +68,12 @@
     </head>
 
     <body>
-        <div class="container-fluid">
+        <div class="wrapper container-fluid">
             <div class="row">
                 <div class="col side-image"></div>
                 <div class="col-12 col-md-8 pt-3">
-                    {% block content %}
-                    {% endblock %}
+                {% block content %}
+                {% endblock %}
                 </div>
                 <div class="col side-image"></div>
             </div>

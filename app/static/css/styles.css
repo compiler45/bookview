@@ -124,26 +124,60 @@ section.article-view .article-preview {
   margin-top: 15px;
   margin-bottom: 15px;
   border-radius: 15px;
+  height: 130px;
 }
-/* line 11, app/less/main/index.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000311}}
-section.article-view .article-preview:hover {
-  background-color: #EEE;
+/* line 12, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000312}}
+section.article-view .article-preview > .card-body {
+  height: 100%;
 }
 /* line 16, app/less/main/index.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000316}}
-.article-preview {
-  height: 8%;
+section.article-view .article-preview:hover {
+  background-color: #EEE;
 }
-/* line 19, app/less/main/index.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000319}}
+/* line 21, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000321}}
 .article-preview .card-title {
-  font-size: 1.5em;
+  font-size: 1.3em;
 }
-/* line 22, app/less/main/index.less */
-@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000322}}
+/* line 25, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000325}}
+.article-preview .card-text {
+  font-size: 0.9em;
+}
+/* line 28, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000328}}
+.article-preview .card-text .text-and-tags {
+  float: left;
+  width: 70%;
+}
+/* line 33, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000333}}
+.article-preview .card-text .bookmark-symbol {
+  float: right;
+  width: 30%;
+}
+/* line 37, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000337}}
+.article-preview .card-text .bookmark-symbol > button {
+  float: right;
+  margin-top: 20px;
+}
+/* line 43, app/less/main/index.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/index\.less}line{font-family:\0000343}}
 .favourite {
   color: #ffff44;
+}
+/* line 1, app/less/main/base.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/base\.less}line{font-family:\000031}}
+.wrapper {
+  height: 100vh;
+}
+/* line 5, app/less/main/base.less */
+@media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/base\.less}line{font-family:\000035}}
+.wrapper > .row {
+  height: 100%;
 }
 /* line 1, app/less/admin/navbar.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/admin\/navbar\.less}line{font-family:\000031}}

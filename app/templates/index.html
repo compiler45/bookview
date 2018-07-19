@@ -1,19 +1,59 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <h1>
-                <strong>
-                    Welcome, {{ current_user.username }}!
-                </strong>
-            </h1>
-            <p>
-               Enjoy your stay.
-            </p>
-            <hr>
-        </div>
-    </div>
+
+<div class="row">
+    <section class="col">
+        {{ macros.render_messages() }}
+        <h1>
+            <strong class="greeting">
+                Welcome, {{ current_user.username }}!
+            </strong>
+        </h1>
+        <p>
+        Enjoy your stay.
+        </p>
+        <hr>
+    </section>
 </div>
+<div class="row">
+    <section class="article-view">
+        <header><strong>Articles: (currently <span class="article-count">{{ pager.total }}</span> in total)</strong></header>
+    {% for article in pager.items %}
+        <section class="article-preview card w-100">
+            <div class="card-body">
+                <h2 class="card-title">
+                    <a class="article-link" href="{{ url_for('main.view_article', hyphenated_title=article.hyphenated_title) }}">
+                        {{ article.title }}
+                    </a>
+                </h2>
+                <div class="card-text">
+                    <div class="text-left w-100">
+                        <div class="text-and-tags">
+                            <p>
+                                {{ article.text_preview }}...
+                            </p>
+                            <p>
+                                {% for tag in article.tags %}
+                                    <a class="badge badge-dark" href="#">
+                                        {{ tag.name }}
+                                    </a>
+                                {% endfor %}
+                            </p>
+                        </div>
+                        <div class="bookmark-symbol">
+                            <button type="button" class="btn">
+                                <i class="far fa-bookmark" title="Bookmark"></i>
+                            </button>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+
+    {{ macros.render_pagination(pager, 'main.index')}}
+    </section>
+</div>
+
 {% endblock content %}

@@ -1,4 +1,4 @@
-# module where application factory is 
+# module where application factory is
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy

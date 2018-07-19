@@ -8,16 +8,25 @@ from flask_login import login_required, current_user
 
 from . import main
 from .forms import WriteArticleForm
-from ..models import Article, Tag, Book, UploadedImage, User
-from ..permissions import has_permission, Permission
+from app.models import Article, Tag, Book, UploadedImage, User
+from app.permissions import Permission
+from app.decorators import has_permission
 from app import db
 
 
 @main.route('/')
 @login_required
 def index():
-    page = request.args.get('page', 1)
-    article_pager = Article.query.filter_by(is_published=True).paginate(page=page)
+    page = request.args.get('page', '1')
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+
+    max_articles_per_page = current_app.config['MAX_ARTICLES_PER_PAGE']
+    article_pager = Article.query.filter_by(is_published=True).paginate(
+        per_page=max_articles_per_page,
+        page=page)
 
     return render_template('index.html', pager=article_pager)
 

@@ -9,6 +9,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 
 from . import db, bcrypt, login_manager
 from .permissions import Permission
+from .constants import TAG_NAMES
 
 
 class Role(db.Model):
@@ -41,7 +42,9 @@ class Role(db.Model):
 
     @staticmethod
     def insert_roles():
-        roles_permissions = {'User': [Permission.VIEW_ARTICLE,
+        logger = current_app.logger
+        roles_permissions = {'User': [Permission.WRITE_ARTICLE,
+                                      Permission.VIEW_ARTICLE,
                                       Permission.SUBMIT_SUGGESTIONS],
                              'Administrator': [Permission.VIEW_ARTICLE,
                                                Permission.WRITE_ARTICLE,
@@ -51,12 +54,15 @@ class Role(db.Model):
         for role_name, permissions in roles_permissions.items():
             role = Role.query.filter_by(name=role_name).first()
             if not role:
-                new_role = Role(name=role_name,
-                                is_default=(role_name == 'User'))
-                new_role.reset_permissions()
-                for permission in permissions:
-                    new_role.add_permission(permission)
-                db.session.add(new_role)
+                logger.info('Inserting role: {}'.format(role_name))
+                role = Role(name=role_name,
+                            is_default=(role_name == 'User'))
+                db.session.add(role)
+
+            role.reset_permissions()
+            logger.info('Updating permissions for role {}'.format(role_name))
+            for permission in permissions:
+                role.add_permission(permission)
 
         db.session.commit()
 
@@ -92,6 +98,10 @@ class User(db.Model, UserMixin):
     @password.setter
     def password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    @property
+    def is_admin(self):
+        return self.role.has_permission(Permission.ADMIN)
 
     def check_password(self, given_password):
         return bcrypt.check_password_hash(self.password_hash, given_password)
@@ -190,14 +200,17 @@ class Article(db.Model):
 
     @cached_property
     def text_preview(self):
-        """ Return first 10 words of an article"""
+        """ Return first 10 words of an article (cannot be more than 40 letters)"""
+        max_num_letters = 40
+        text = self.body_text[:max_num_letters]
+
         num_spaces = 0
         preview = ""
-        for char in self.body_text:
+        for char in text:
             if char == " ":
                 num_spaces += 1
 
-            if num_spaces == 10:
+            if num_spaces == 10 or len(preview) == max_num_letters:
                 break
             else:
                 preview += char
@@ -225,12 +238,7 @@ class Tag(db.Model):
     @staticmethod
     def insert_tags():
         logger = current_app.logger
-        tag_names = ['Action', 'Graphic Novel', 'Philosophy', 'Classical '
-                     'Literature', 'Modern Literature', 'History', 'Political '
-                     'Philosophy', 'Science', 'Existentialism', 'Social '
-                     'Commentary', 'Travel', 'Science Fiction', 'Fantasy', 
-                     'Japanese Literature']
-        for name in tag_names:
+        for name in TAG_NAMES:
             tag = Tag.query.filter_by(name=name).one_or_none()
             if not tag:
                 logger.info('Adding new book tag: {}'.format(name))

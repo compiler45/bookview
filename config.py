@@ -21,6 +21,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # generate a random key?
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    MAX_ARTICLES_PER_PAGE = 10
 
     @staticmethod
     def init_app(app):
@@ -36,9 +37,18 @@ class DevelopmentConfig(Config):
 
 class TestConfig(Config):
     TESTING = True
+    DEBUG = False
     WTF_CSRF_ENABLED = False
     SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URI') or \
-            'sqlite:///{}'.format(os.path.join(basedir, 'data-test.sqlite'))
+                              'sqlite:///{}'.format(os.path.join(basedir, 'data-test.sqlite'))
+    ADMIN_PASSWORD = os.environ.get('BOOKVIEW_TEST_ADMIN_PASSWORD')
+
+
+class StagingConfig(Config):
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = os.environ.get('STAGING_DATABASE_URI') or \
+                              'sqlite:///{}'.format(os.path.join(basedir, 'data-test.sqlite'))
     ADMIN_PASSWORD = os.environ.get('BOOKVIEW_TEST_ADMIN_PASSWORD')
 
 
@@ -48,8 +58,9 @@ class ProductionConfig(Config):
 
 
 configs = {
-    'default': DevelopmentConfig, 
+    'default': DevelopmentConfig,
     'development': DevelopmentConfig,
     'testing': TestConfig,
+    'staging': StagingConfig,
     'production': ProductionConfig,
 }

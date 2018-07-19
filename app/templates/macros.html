@@ -7,3 +7,39 @@
 {% endfor %}
 
 {% endmacro %}
+
+{% macro render_errors(errors) %}
+{% for error in errors %}
+    <div class="alert alert-danger">{{ error }}</div>
+{% endfor %}
+
+{% endmacro %}
+
+{% macro render_pagination(pager, endpoint) %}
+    <a class="pagination-link" href={% if pager.page > 1 %}
+            "{{ url_for(endpoint, page=pager.page - 1) }}"
+            {% else %}
+                "#"
+            {% endif %}>
+        &laquo;
+    </a>
+
+    {% for page in pager.iter_pages(left_edge=3, left_current=2, right_current=2, right_edge=3) %}
+        {% if not page %}
+            <a class="pagination-link btn btn-default disabled" href="#">...</a>
+        {% else %}
+            {% if page != pager.page %}
+                <a class="pagination-link btn btn-default" href="{{ url_for(endpoint, page=pager.page) }}">{{ page }}</a>
+            {% else %}
+                <a class="pagination-link btn btn-primary disabled" href="#">{{ page }}</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    <a class="pagination-link" href={% if pager.next_num %}"{{ url_for(endpoint, page=pager.page + 1)}}"
+            {% else %}#{% endif %}>&raquo;</a>
+{% endmacro %}
+
+            
+        
+

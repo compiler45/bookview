@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section>
+    <header><strong>Articles</strong></header>
+    <div class="articles-view">
+        {{ macros.render_pagination(article_pager, 'main.view_articles') }} 
+    </div>
+</section>
+{% endblock content %}
