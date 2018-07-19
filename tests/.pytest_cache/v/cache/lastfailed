@@ -1,0 +1,4 @@
+{
+  "test_database.py::test_password": true,
+  "test_database.py::test_roles": true
+}
