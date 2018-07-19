@@ -19,7 +19,7 @@
     <a class="pagination-link" href={% if pager.page > 1 %}
             "{{ url_for(endpoint, page=pager.page - 1) }}"
             {% else %}
-                "#"
+                #
             {% endif %}>
         &laquo;
     </a>
@@ -29,7 +29,7 @@
             <a class="pagination-link btn btn-default disabled" href="#">...</a>
         {% else %}
             {% if page != pager.page %}
-                <a class="pagination-link btn btn-default" href="{{ url_for(endpoint, page=pager.page) }}">{{ page }}</a>
+                <a class="pagination-link btn btn-default" href="{{ url_for(endpoint, page=page) }}">{{ page }}</a>
             {% else %}
                 <a class="pagination-link btn btn-primary disabled" href="#">{{ page }}</a>
             {% endif %}

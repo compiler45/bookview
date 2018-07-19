@@ -1,6 +1,6 @@
 """ FT for a user who visits the site when it has at least twenty articles, clicks
 an article on page 1, goes back, and views page 2"""
-
+import random
 import time
 import pytest
 from selenium import webdriver
@@ -27,7 +27,8 @@ def db_setup(database, admin_user):
     database.session.commit()
 
     # always need an admin user to make new articles!
-    generate_articles(number=25)
+    num_articles = random.randint(20, 40)
+    generate_articles(number=num_articles)
 
 
 @pytest.mark.usefixtures("live_server")
@@ -81,6 +82,8 @@ class TestUserBrowsesIndexPage(object):
         browser.back()
         link_to_page_two = browser.find_elements_by_class_name('pagination-link')[2]
         link_to_page_two.click()
+        assert browser.current_url == '{}?page=2'.format(url_for('main.index',
+                                                                _external=True))
 
         article_links = browser.find_elements_by_class_name('article-link')
         assert len(article_links) == current_app.config['MAX_ARTICLES_PER_PAGE']
