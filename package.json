@@ -2,6 +2,7 @@
   "name": "bookview",
   "version": "1.0.0",
   "description": "Small Flask application for allowing logged-in users to view and 'favourite' articles about books.",
+  "description": "Small and simple Flask application allowing users to view and favourite articles about good books.",
   "main": "index.js",
   "directories": {
     "test": "tests"
