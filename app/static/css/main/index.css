@@ -1,0 +1,29 @@
+section.article-view {
+  width: 95%;
+  margin: 0 auto; }
+  section.article-view .article-preview {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+    height: 130px; }
+  section.article-view .article-preview > .card-body {
+    height: 100%; }
+  section.article-view .article-preview:hover {
+    background-color: #EEE; }
+
+.article-preview .card-title {
+  font-size: 1.3em; }
+
+.article-preview .card-text {
+  font-size: 0.9em; }
+  .article-preview .card-text .text-and-tags {
+    float: left;
+    width: 70%; }
+  .article-preview .card-text .bookmark-symbol {
+    float: right;
+    width: 30%; }
+    .article-preview .card-text .bookmark-symbol > button {
+      margin-top: 20px; }
+
+.favourite {
+  color: #ffff44; }
