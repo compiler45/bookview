@@ -15,7 +15,6 @@ def test_correct_number_of_pagination_links_shown_on_index_page(app, client,
     # add some fake articles
     num_fake_articles = random.choice(range(1, 20))
     generate_articles(number=num_fake_articles)
-    print(num_fake_articles)
     num_published_articles = Article.query.filter_by(is_published=True).count()
     assert num_published_articles == num_fake_articles
 

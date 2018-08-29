@@ -24,7 +24,7 @@ def index():
         page = 1
 
     max_articles_per_page = current_app.config['MAX_ARTICLES_PER_PAGE']
-    article_pager = Article.query.filter_by(is_published=True).paginate(
+    article_pager = Article.query.filter_by(is_published=True).order_by(Article.time_published.desc()).paginate(
         per_page=max_articles_per_page,
         page=page)
 

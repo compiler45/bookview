@@ -1,34 +1,14 @@
 """ FT for a user who visits the site when it has at least twenty articles, clicks
 an article on page 1, goes back, and views page 2"""
-import random
-import time
 import pytest
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+import time
+
 from flask import current_app, url_for
 
-from app.models import User
-from app.test_data import generate_articles
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
 
-@pytest.fixture
-def browser():
-    browser = webdriver.Chrome()
-
-    yield browser
-    browser.quit()
-
-
-@pytest.fixture(autouse=True)
-def db_setup(database, admin_user):
-    user = User(username='maetel', password='mystery', email='sad@woman.com',
-                confirmed=True)
-    database.session.add(user)
-    database.session.commit()
-
-    # always need an admin user to make new articles!
-    num_articles = random.randint(20, 40)
-    generate_articles(number=num_articles)
 
 
 @pytest.mark.usefixtures("live_server")
