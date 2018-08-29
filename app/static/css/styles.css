@@ -19,12 +19,13 @@ nav a:hover {
   background-image: url("/static/img/stacked_books.jpg");
   opacity: 0.4;
   width: 10%;
+  min-height: 100vh;
   background-repeat: repeat-y;
   background-color: white;
 }
 @media screen and (max-width: 639px) {
-  /* line 8, app/less/main/background.less */
-  @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/background\.less}line{font-family:\000038}}
+  /* line 9, app/less/main/background.less */
+  @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/background\.less}line{font-family:\000039}}
   .side-image {
     display: none;
   }
@@ -172,7 +173,7 @@ section.article-view .article-preview:hover {
 /* line 1, app/less/main/base.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/base\.less}line{font-family:\000031}}
 .wrapper {
-  height: 100vh;
+  min-height: 100%;
 }
 /* line 5, app/less/main/base.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/main\/base\.less}line{font-family:\000035}}
@@ -192,5 +193,5 @@ nav a:hover {
 /* line 1, app/less/forms.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/forms\.less}line{font-family:\000031}}
 .form-group.has-error .help-block {
-  color: red;
+  color: white;
 }
