@@ -17,26 +17,40 @@ def user_details():
             'password2': 'peace'}
 
 
-def test_incorrect_confirmation_token(app, client, user_details):
+def test_right_message_on_successful_submission_to_register_endpoint(app,
+                                                                     client,
+                                                                     user_details):
     response = client.post('/register', data=user_details,
-                                follow_redirects=True)
+                           follow_redirects=True)
     assert response.status_code is 200
     assert "An email has been sent to your address" in response.get_data(as_text=True)
 
+
+def test_user_exists_on_successful_submission_to_register_endpoint(app, client, user_details):
+    response = client.post('/register',
+                           data=user_details,
+                           follow_redirects=True)
+
     user = User.query.filter_by(username='nasuka').first()
     assert user is not None
+
+
+def test_user_is_not_confirmed_on_successful_submission_to_register_endpoint(app, client, user_details):
+    response = client.post('/register',
+                           data=user_details,
+                           follow_redirects=True)
+    user = User.query.filter_by(username='nasuka').first()
     assert user.confirmed is False
 
+
+def test_verification_fails_on_incorrect_token_after_submission_to_register_endpoint(app, client, user_details):
+    response = client.post('/register',
+                           data=user_details,
+                           follow_redirects=True)
     bad_token = 'bad token'
+    user = User.query.filter_by(username='nasuka').first()
     verified = user.verify_confirmation_token(bad_token)
     assert verified is False
-
-    # login, then confirm
-    client.post('/login', data={'username': 'nasuka', 'password': 'peace'})
-    response = client.get('/confirm?t={}'.format(bad_token),
-                               follow_redirects=True)
-    assert 'Token is invalid or expired' in response.get_data(as_text=True)
-    assert user.confirmed is False
 
 
 def test_correct_confirmation_token(app, client, user_details):
@@ -54,7 +68,8 @@ def test_correct_confirmation_token(app, client, user_details):
                                follow_redirects=True)
     assert user.confirmed is True
 
-def test_expired_confirmation(app, client, user_details):
+
+def test_user_verification_fails_on_expired_confirmation(app, client, user_details):
     response = client.post('/register', data=user_details)
 
     user = User.query.filter_by(username='nasuka').first()
