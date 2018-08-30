@@ -10,5 +10,5 @@ Index page
 Page where admin can write articles
 ![alt text](https://raw.githubusercontent.com/compiler45/bookview/master/images/write_article.png)
 
-Admin can view their markdown live while editing
+Admin can view their markdown rendered to HTML live while editing
 ![alt text](https://raw.githubusercontent.com/compiler45/bookview/master/images/markdown_preview.png)
