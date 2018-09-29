@@ -10,15 +10,8 @@ from ..email import send_email
 
 @auth.before_request
 def before_request():
-    if current_user.is_authenticated \
-       and current_user.confirmed \
-       and request.endpoint in ['auth.confirm', 'auth.resend_confirmation_email']:
+    if current_user.is_authenticated and request.endpoint == 'auth.login':
         return redirect(url_for('main.index'))
-
-    if (current_user.is_authenticated and request.endpoint == 'auth.login') or \
-       (current_user.is_anonymous and request.endpoint == 'auth.logout'):
-            return redirect(url_for('main.index'))
-
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -52,6 +45,7 @@ def register():
         db.session.add(user)
         db.session.commit()
 
+        # TODO: move to an email module for god sake
         # send confirmation email
         token = user.generate_confirmation_token()
         send_email(to=email, subject='Please confirm your Bookview account',
@@ -65,7 +59,11 @@ def register():
 @auth.route('/confirm')
 @login_required
 def confirm():
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+
     token = request.args.get('t')
+    # we want to use the actual User instance
     user = current_user._get_current_object()
     if token:
         if user.verify_confirmation_token(token):
@@ -83,8 +81,12 @@ def confirm():
 @auth.route('/resend-confirmation')
 @login_required
 def resend_confirmation_email():
+    if current_user.confirmed:
+        return redirect(url_for('main.index'))
+
     token = current_user.generate_confirmation_token()
     current_app.logger.debug('Email {}'.format(current_user.email))
+    # TODO: move to sendemail module, this view doesn't need to know all these details
     send_email(to=current_user.email, subject='Please confirm your Bookview account',
                template='email/confirm.html', token=token, user=current_user)
 
@@ -93,8 +95,7 @@ def resend_confirmation_email():
 
 
 @auth.route('/logout')
+@login_required
 def logout():
-    if current_user.is_authenticated:
-        logout_user()
-
+    logout_user()
     return render_template('auth/logout.html')

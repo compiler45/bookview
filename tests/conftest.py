@@ -10,10 +10,8 @@ from app.decorators import attach_request_hooks
 def app():
     app = create_app('testing')
     attach_request_hooks(app)
-    return app
-
-    # db.session.remove()
-    # db.drop_all()
+    with app.app_context():
+        yield app
 
 
 @pytest.fixture
@@ -21,8 +19,7 @@ def database():
     return db
 
 @pytest.fixture(autouse=True)
-def handle_database(request, database):
-
+def handle_database(request, app, database):
     database.create_all()
     Role.insert_roles()
     Tag.insert_tags()

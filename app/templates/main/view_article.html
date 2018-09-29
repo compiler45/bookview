@@ -3,15 +3,6 @@
 {% block content %}
 <article>
     <div class="article-info">
-        <div class="article-image">
-            {% if article.image %}
-                <img src="{{ article.image.static_path }}">
-            {% else %}
-                <img src="{{ url_for('static',
-                filename='img/no_img_available.png') }}" alt="">
-            {% endif %}
-        </div>
-        <hr class="spacer">
         <div class="book-info">
             <p>
                 <strong>Author: </strong>{{ article.book.author }}
@@ -19,7 +10,8 @@
             {% set year_published = article.book.year_published %}
             {% if year_published %}
                 <p>
-                <strong>Year published: </strong> {{ year_published }}</p>
+                    <strong>Year published: </strong> {{ year_published }}
+                </p>
             {% endif %}
         </div>
     </div>

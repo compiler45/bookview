@@ -22,6 +22,5 @@ def db_setup(database, admin_user):
     database.session.add(user)
     database.session.commit()
 
-    # always need an admin user to make new articles!
     num_articles = random.randint(20, 40)
     generate_articles(number=num_articles)

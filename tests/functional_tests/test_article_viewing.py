@@ -9,10 +9,8 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-
-
 @pytest.mark.usefixtures("live_server")
-class TestUserBrowsesIndexPage(object):
+class TestUserBrowsesIndexPage:
 
     def test_user_visits_page_one_and_page_two(self, browser):
 
@@ -70,3 +68,5 @@ class TestUserBrowsesIndexPage(object):
 
         # After she's done browsing a bit, she sleeps as the stars drift by
         # outside
+
+

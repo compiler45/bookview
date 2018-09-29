@@ -37,6 +37,7 @@ def update_dev_db():
 @click.option('--num-articles', type=click.INT, help='Add fake articles to the'
               ' database')
 def recreate_dev_db(drop_all, add_admin, num_articles):
+    # TODO: refactor
     with app.app_context():
         if drop_all:
             app.logger.info('Dropping tables')

@@ -3,21 +3,28 @@ import pytest
 from app.models import Role, User
 
 
-def test_roles(app):
-    # one User role, one Administrator role
-    users = Role.query.filter_by(name='User').all()
-    admins = Role.query.filter_by(name='Administrator').all()
+class RolesUnitTest:
 
-    assert len(users) == 1
-    assert len(admins) == 1
+    def test_user_does_have_a_default_role(app, database):
+        # one User role, one Administrator role
+        users = Role.query.filter_by(name='User').all()
+        assert users[0].is_default is True
 
-    assert users[0].is_default is True and admins[0].is_default is False
+    def test_admin_does_not_have_a_default_role(app, database):
+        admins = Role.query.filter_by(name='Administrator').all()
+        assert admins[0].is_default is False
 
 
-def test_password(app):
-    user = User.query.filter_by(username='conductor').one()
-    with pytest.raises(AttributeError):
-        password = user.password
+class ModelsUnitTest:
 
-    assert user.check_password('spacenebula') is False
-    assert user.check_password('nervousdreamer') is True
+    def test_password_attribute_cannot_be_accessed_from_user_model_directly(
+        app, database
+    ):
+        user = User.query.filter_by(username='conductor').one()
+        with pytest.raises(AttributeError):
+            user.password
+
+    def test_check_password_method_gives_true_for_correct_user_password(app):
+        user = User.query.filter_by(username='conductor').one()
+        assert user.check_password('spacenebula') is False
+        assert user.check_password('nervousdreamer') is True

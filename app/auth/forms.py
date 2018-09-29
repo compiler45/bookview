@@ -11,6 +11,7 @@ from ..models import User
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(),
                                                    Length(1, 30)])
+    # TODO: implement password checking
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember me?')
     submit = SubmitField('Login')

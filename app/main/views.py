@@ -79,16 +79,16 @@ def write_article():
         article.tags = tags
 
         hyphenated_title = article.hyphenated_title
-        image = form.book_image.data
-        if image:
-            extension = image.split('.')[-1]
-            filename = '{}.{}'.format(hyphenated_title, extension)
-            image_path = os.path.join(current_app.instance_path,
-                                      'app/static/img/uploads', filename)
-            image.save(image_path)
-            uploaded_image = UploadedImage(filename=filename, path=image_path)
-            db.session.add(uploaded_image)
-            article.image = uploaded_image
+        # image = form.book_image.data
+        # if image:
+        #     extension = image.split('.')[-1]
+        #     filename = '{}.{}'.format(hyphenated_title, extension)
+        #     image_path = os.path.join(current_app.instance_path,
+        #                               'app/static/img/uploads', filename)
+        #     image.save(image_path)
+        #     uploaded_image = UploadedImage(filename=filename, path=image_path)
+        #     db.session.add(uploaded_image)
+        #     article.image = uploaded_image
 
         published = form.publish.data
         if published:
