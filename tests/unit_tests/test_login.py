@@ -40,7 +40,6 @@ class LoginPageViewIntegrationTest:
 
         assert 'Welcome, conductor' in response.get_data(as_text=True)
 
-
     def test_correct_message_on_logout(
         app, client, confirmed_user
     ):
