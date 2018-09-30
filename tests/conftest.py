@@ -10,13 +10,13 @@ from app.decorators import attach_request_hooks
 def app():
     app = create_app('testing')
     attach_request_hooks(app)
-    with app.app_context():
-        yield app
+    return app
 
 
 @pytest.fixture
 def database():
     return db
+
 
 @pytest.fixture(autouse=True)
 def handle_database(request, app, database):

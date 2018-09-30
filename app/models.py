@@ -118,7 +118,7 @@ class User(db.Model, UserMixin):
     def verify_confirmation_token(self, token):
         try:
             payload = jwt.decode(token, current_app.config['SECRET_KEY'],
-                                 algorithm='HS256')
+                                 algorithms=['HS256'])
             if payload.get('user_id') != self.id:
                 return False
         except Exception:

@@ -50,7 +50,7 @@ def register():
         token = user.generate_confirmation_token()
         send_email(to=email, subject='Please confirm your Bookview account',
                    template='email/confirm.html', token=token, user=user)
-        flash("Thank you! An email has been sent to your address with "
+        flash("Thank you! An email has been sent to your supplied address with "
               "instructions to confirm your account.", 'success')
 
     return render_template('auth/register.html', form=form)

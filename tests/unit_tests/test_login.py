@@ -12,40 +12,40 @@ def confirmed_user(app, database):
     return user
 
 
-def attempt_login(client, username, password):
-    # TODO make a decorator
-    return client.post('/login', data={'username': username,
-                                       'password': password},
-                       follow_redirects=True)
-
-
+@pytest.mark.usefixtures('client_class')
 class LoginPageViewIntegrationTest:
 
-    def test_login_page_gives_correct_status_code(app, client):
-        response = client.get('/', follow_redirects=True)
+    def attempt_login(self, username, password):
+        # TODO make a decorator
+        return self.client.post('/login', data={'username': username,
+                                           'password': password},
+                           follow_redirects=True)
+
+    def test_login_page_gives_correct_status_code(self, app):
+        response = self.client.get('/', follow_redirects=True)
         assert response.status_code == 200
 
-    def test_login_page_shows_right_message(app, client):
-        response = client.get('/', follow_redirects=True)
+    def test_login_page_shows_right_message(self, app):
+        response = self.client.get('/', follow_redirects=True)
         assert 'Welcome to Bookview' in response.get_data(as_text=True)
 
-    def test_login_with_incorrect_details(app, client):
-        response = attempt_login(client, 'tetsuro', '999')
+    def test_login_with_incorrect_details(self, app):
+        response = self.attempt_login('tetsuro', '999')
         assert 'Invalid account details' in response.get_data(as_text=True)
 
     def test_correct_message_on_successful_login(
-        app, client, confirmed_user
+        self, app, confirmed_user
     ):
-        response = attempt_login(client, 'conductor', 'nervousdreamer')
+        response = self.attempt_login('conductor', 'nervousdreamer')
 
         assert 'Welcome, conductor' in response.get_data(as_text=True)
 
     def test_correct_message_on_logout(
-        app, client, confirmed_user
+        self, app, confirmed_user
     ):
-        response = attempt_login(client, 'conductor', 'nervousdreamer')
+        response = self.attempt_login('conductor', 'nervousdreamer')
 
-        response = client.get('/logout')
+        response = self.client.get('/logout')
         assert response.status_code == 200
         assert 'You have been logged out' in response.get_data(as_text=True)
 
