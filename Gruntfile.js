@@ -17,8 +17,7 @@ module.exports = function(grunt) {
         watch: {
             less: {
                 tasks: ['less'],
-                files: ['app/less/styles.less', 'app/less/auth/*.less',
-                        'app/less/main/*.less', 'app/less/admin/*.less'],
+                files: ['app/**/*.less'],
                 options: {
                     spawn: true,
                     reload: true

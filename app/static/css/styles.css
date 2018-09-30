@@ -193,5 +193,5 @@ nav a:hover {
 /* line 1, app/less/forms.less */
 @media -sass-debug-info{filename{font-family:file\:\/\/app\/less\/forms\.less}line{font-family:\000031}}
 .form-group.has-error .help-block {
-  color: white;
+  color: red;
 }
